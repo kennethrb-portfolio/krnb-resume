@@ -4,10 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Kenneth Robert Basilio — Broadcast Engineer</title>
-<meta name="description" content="Kenneth Robert Basilio — Master Control Room & Broadcast Systems Engineer. 13+ years in playout, automation, and broadcast IT." />
+<meta name="description" content="Kenneth Robert Basilio — Master Control Room & Broadcast Systems Engineer. 15+ years in playout, automation, and broadcast IT." />
 <meta name="referrer" content="no-referrer" />
 
-<!-- Open Graph / social preview -->
 <meta property="og:title" content="Kenneth Robert Basilio — Broadcast Engineer" />
 <meta property="og:description" content="Master Control Room & Broadcast Systems Engineer — playout, automation, broadcast IT." />
 <meta property="og:type" content="website" />
@@ -26,10 +25,10 @@
     --ink:#E6EAF0;
     --ink-dim:#8B96A8;
     --ink-faint:#5A667A;
-    --tally:#FF3B30;      /* on-air / current */
-    --signal:#4FE3A6;     /* nominal / good   */
-    --amber:#FFB020;      /* timecode / caution */
-    --cyan:#38BDF8;       /* data / links     */
+    --tally:#FF3B30;
+    --signal:#4FE3A6;
+    --amber:#FFB020;
+    --cyan:#38BDF8;
     --r:6px;
     --maxw:1160px;
     --disp:'Chakra Petch',system-ui,sans-serif;
@@ -52,181 +51,116 @@
   }
   a{color:var(--cyan);text-decoration:none}
   a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,4vw,40px)}
 
-  .eyebrow{
-    font-family:var(--mono);
-    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--ink-faint);
-  }
-  .label{
-    font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--signal);
-  }
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal)}
 
   /* ---------- STATUS RAIL ---------- */
-  .rail{
-    position:sticky;top:0;z-index:50;
-    background:rgba(11,14,20,.82);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .rail-in{
-    max-width:var(--maxw);margin:0 auto;
-    display:flex;align-items:center;gap:16px;
-    padding:10px clamp(16px,4vw,40px);
-  }
-  .chan{display:flex;align-items:center;gap:10px;min-width:0}
-  .chan .id{
-    font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.02em;
-    white-space:nowrap;
-  }
-  .chan .id b{color:var(--signal);font-weight:700}
+  .rail{position:sticky;top:0;z-index:50;background:rgba(11,14,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .rail-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:16px;padding:9px clamp(16px,4vw,40px)}
+  .chan{display:flex;align-items:center;gap:12px;min-width:0}
+  .chan-id{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+  .chan-id .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+  .chan-id .v{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.03em;color:var(--signal);white-space:nowrap}
   .rail-nav{display:flex;gap:2px;margin-left:auto}
-  .rail-nav a{
-    font-family:var(--mono);font-size:12px;letter-spacing:.05em;
-    color:var(--ink-dim);padding:6px 10px;border-radius:4px;
-  }
+  .rail-nav a{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink-dim);padding:6px 10px;border-radius:4px}
   .rail-nav a:hover{color:var(--ink);background:var(--panel);text-decoration:none}
-  .tc{
-    font-family:var(--mono);font-size:13px;font-weight:500;
-    color:var(--amber);white-space:nowrap;letter-spacing:.04em;
-    padding:5px 9px;border:1px solid var(--line);border-radius:4px;
-    background:var(--panel);
-  }
-  .onair{
-    display:inline-flex;align-items:center;gap:7px;
-    font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.14em;
-    color:var(--tally);padding:5px 10px;border:1px solid rgba(255,59,48,.4);
-    border-radius:4px;background:rgba(255,59,48,.08);white-space:nowrap;
-  }
-  .onair .dot{width:8px;height:8px;border-radius:50%;background:var(--tally);
-    box-shadow:0 0 0 0 rgba(255,59,48,.6);animation:pulse 2s infinite}
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(255,59,48,.55)}
-    70%{box-shadow:0 0 0 7px rgba(255,59,48,0)}
-    100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}
-  }
-  .btn-print{
-    font-family:var(--mono);font-size:12px;letter-spacing:.05em;
-    color:var(--ink);background:var(--panel-2);border:1px solid var(--line-soft);
-    border-radius:4px;padding:6px 11px;cursor:pointer;white-space:nowrap;
-  }
-  .btn-print:hover{border-color:var(--signal);color:var(--signal)}
+  .tc{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--amber);white-space:nowrap;letter-spacing:.04em;padding:5px 9px;border:1px solid var(--line);border-radius:4px;background:var(--panel);margin-left:auto}
+  .rail-nav ~ .tc{margin-left:0}
+  .onair{display:inline-flex;align-items:center;gap:7px;font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--tally);padding:5px 10px;border:1px solid rgba(255,59,48,.4);border-radius:4px;background:rgba(255,59,48,.08);white-space:nowrap}
+  .onair .dot{width:8px;height:8px;border-radius:50%;background:var(--tally);box-shadow:0 0 0 0 rgba(255,59,48,.6);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,59,48,.55)}70%{box-shadow:0 0 0 7px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
 
   /* ---------- HERO ---------- */
   .hero{padding:clamp(48px,9vw,110px) 0 clamp(36px,6vw,64px)}
   .hero-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:clamp(28px,5vw,64px);align-items:center}
-  .src-tag{
-    display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;
-    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--signal);border:1px solid var(--line);border-radius:100px;
-    padding:5px 12px;background:var(--panel);
-  }
+  .src-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);border:1px solid var(--line);border-radius:100px;padding:5px 12px;background:var(--panel)}
   .src-tag .sq{width:7px;height:7px;background:var(--signal);border-radius:1px}
-  h1{
-    font-family:var(--disp);font-weight:700;
-    font-size:clamp(38px,6.4vw,74px);line-height:.98;letter-spacing:-.01em;
-    margin-bottom:18px;
-  }
-  h1 .sub{display:block;color:var(--ink-dim);font-weight:500;
-    font-size:clamp(15px,2.2vw,22px);letter-spacing:.02em;margin-top:14px}
-  .lede{color:var(--ink-dim);font-size:clamp(15px,1.5vw,17px);max-width:52ch;margin-bottom:26px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(38px,6.4vw,74px);line-height:.98;letter-spacing:-.01em;margin-bottom:18px}
+  h1 .sub{display:block;color:var(--ink-dim);font-weight:500;font-size:clamp(15px,2.2vw,22px);letter-spacing:.02em;margin-top:14px}
+  .lede{color:var(--ink-dim);font-size:clamp(15px,1.5vw,17px);max-width:54ch;margin-bottom:26px}
   .cta-row{display:flex;flex-wrap:wrap;gap:12px}
-  .cta{
-    font-family:var(--mono);font-size:13px;letter-spacing:.04em;
-    padding:11px 18px;border-radius:var(--r);cursor:pointer;border:1px solid transparent;
-  }
+  .cta{font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:11px 18px;border-radius:var(--r);cursor:pointer;border:1px solid transparent;display:inline-block}
   .cta.primary{background:var(--signal);color:#05130D;font-weight:600}
   .cta.primary:hover{filter:brightness(1.08);text-decoration:none}
-  .cta.ghost{border-color:var(--line-soft);color:var(--ink)}
+  .cta.ghost{border-color:var(--line-soft);color:var(--ink);background:transparent}
   .cta.ghost:hover{border-color:var(--signal);color:var(--signal);text-decoration:none}
 
-  /* monitor tiles */
   .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  .tile{
-    border:1px solid var(--line);border-radius:var(--r);
-    background:linear-gradient(180deg,var(--panel-2),var(--panel));
-    padding:16px 16px 14px;position:relative;overflow:hidden;
-  }
-  .tile::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,var(--signal),transparent)}
+  .tile{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--panel-2),var(--panel));padding:16px;position:relative;overflow:hidden}
+  .tile::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--signal),transparent)}
   .tile .num{font-family:var(--disp);font-weight:700;font-size:30px;line-height:1;color:var(--ink)}
   .tile .num small{font-size:15px;color:var(--signal);margin-left:2px}
-  .tile .cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--ink-faint);margin-top:8px}
+  .tile .cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:8px}
 
-  /* ---------- SECTION SHELL ---------- */
+  /* ---------- SECTIONS ---------- */
   section{padding:clamp(44px,7vw,86px) 0;border-top:1px solid var(--line)}
   .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:34px;flex-wrap:wrap}
   .sec-head .idx{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.1em}
   .sec-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(22px,3.2vw,34px);letter-spacing:-.01em}
   .sec-head .meta{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.08em}
 
-  /* ---------- SIGNAL PATH / SKILLS ---------- */
+  /* ---------- SKILLS ---------- */
   .skill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .skill-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:20px}
-  .skill-card h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--signal);margin-bottom:14px;display:flex;align-items:center;gap:9px}
+  .skill-card h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--signal);margin-bottom:14px;display:flex;align-items:center;gap:9px}
   .skill-card h3::before{content:"";width:6px;height:6px;background:var(--signal);border-radius:1px;box-shadow:0 0 8px var(--signal)}
   .chips{display:flex;flex-wrap:wrap;gap:7px}
-  .chip{font-family:var(--mono);font-size:12px;color:var(--ink-dim);
-    border:1px solid var(--line-soft);border-radius:4px;padding:5px 9px;background:var(--panel-2)}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--ink-dim);border:1px solid var(--line-soft);border-radius:4px;padding:5px 9px;background:var(--panel-2)}
   .chip:hover{color:var(--ink);border-color:var(--signal)}
 
-  /* ---------- RUNDOWN / TIMELINE ---------- */
+  /* ---------- RUNDOWN ---------- */
   .rundown{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
   .seg{border-bottom:1px solid var(--line);background:var(--panel)}
   .seg:last-child{border-bottom:none}
-  .seg-head{width:100%;text-align:left;cursor:pointer;background:none;border:none;color:inherit;
-    display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;
-    padding:18px 20px;font-family:inherit}
+  .seg-head{width:100%;text-align:left;cursor:pointer;background:none;border:none;color:inherit;display:grid;grid-template-columns:118px 1fr auto;gap:16px;align-items:center;padding:18px 20px;font-family:inherit}
   .seg-head:hover{background:var(--panel-2)}
-  .seg-tc{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.04em}
+  .seg-yr{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.03em;white-space:nowrap}
   .seg-title{min-width:0}
-  .seg-title .role{font-family:var(--disp);font-weight:600;font-size:clamp(16px,2vw,20px);color:var(--ink)}
-  .seg-title .org{font-family:var(--mono);font-size:12px;color:var(--ink-dim);margin-top:2px}
-  .seg-badge{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    padding:4px 8px;border-radius:3px;white-space:nowrap}
+  .seg-title .role{font-family:var(--disp);font-weight:600;font-size:clamp(16px,2vw,20px);color:var(--ink);display:block}
+  .seg-title .org{font-family:var(--mono);font-size:12px;color:var(--ink-dim);margin-top:4px;padding-left:18px;display:block}
+  .seg-badge{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:3px;white-space:nowrap}
   .seg-badge.live{color:var(--tally);border:1px solid rgba(255,59,48,.4);background:rgba(255,59,48,.08)}
   .seg-badge.arch{color:var(--ink-faint);border:1px solid var(--line-soft)}
   .seg-caret{font-family:var(--mono);color:var(--ink-faint);transition:transform .25s;font-size:13px}
   .seg[aria-expanded="true"] .seg-caret{transform:rotate(90deg);color:var(--signal)}
   .seg-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
-  .seg-body-in{padding:2px 20px 22px 100px}
+  .seg-body-in{padding:2px 20px 22px 154px}
   .seg-body ul{list-style:none;display:grid;gap:9px}
   .seg-body li{position:relative;padding-left:20px;color:var(--ink-dim);font-size:14.5px}
   .seg-body li::before{content:"▸";position:absolute;left:0;color:var(--signal);font-size:11px;top:3px}
 
   /* ---------- PROJECTS ---------- */
   .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
-  .filter{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-dim);
-    background:var(--panel);border:1px solid var(--line-soft);border-radius:4px;padding:7px 13px;cursor:pointer}
+  .filter{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-dim);background:var(--panel);border:1px solid var(--line-soft);border-radius:4px;padding:7px 13px;cursor:pointer}
   .filter[aria-pressed="true"]{background:var(--signal);color:#05130D;border-color:var(--signal);font-weight:600}
   .filter:hover:not([aria-pressed="true"]){border-color:var(--signal);color:var(--ink)}
   .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);
-    padding:20px;display:flex;flex-direction:column;gap:12px;transition:transform .2s,border-color .2s}
-  .card:hover{transform:translateY(-3px);border-color:var(--line-soft)}
+  .card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:12px;transition:transform .2s,border-color .2s;color:inherit}
+  .card:hover{transform:translateY(-3px);border-color:var(--signal);text-decoration:none}
   .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
   .card .kind{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
   .card .stat{width:8px;height:8px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal)}
   .card h3{font-family:var(--disp);font-weight:600;font-size:17px;color:var(--ink)}
   .card p{font-size:13.5px;color:var(--ink-dim);flex:1}
   .card .tags{display:flex;flex-wrap:wrap;gap:6px}
-  .card .tags span{font-family:var(--mono);font-size:10.5px;color:var(--signal);
-    border:1px solid var(--line-soft);border-radius:3px;padding:3px 7px}
+  .card .tags span{font-family:var(--mono);font-size:10.5px;color:var(--signal);border:1px solid var(--line-soft);border-radius:3px;padding:3px 7px}
+  .card .open{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase}
+  .card:hover .open{color:var(--signal)}
   .card.hide{display:none}
 
   /* ---------- CERTS ---------- */
   .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .cert{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:16px 18px}
+  .cert{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:16px 18px;color:inherit;display:block;transition:transform .2s,border-color .2s}
+  .cert:hover{transform:translateY(-3px);border-color:var(--signal);text-decoration:none}
   .cert .yr{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.06em}
-  .cert .nm{font-family:var(--disp);font-weight:600;font-size:15px;margin:6px 0 3px}
+  .cert .nm{font-family:var(--disp);font-weight:600;font-size:15px;margin:6px 0 3px;color:var(--ink)}
   .cert .by{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
 
-  /* ---------- 2-COL LOWER ---------- */
+  /* ---------- 2-COL ---------- */
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px)}
   .stack{display:grid;gap:16px}
   .row{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px}
@@ -237,20 +171,16 @@
   .row p{font-size:13.5px;color:var(--ink-dim);margin-top:8px}
 
   /* ---------- CONTACT ---------- */
-  .contact{border-top:1px solid var(--line)}
-  .contact-box{border:1px solid var(--line-soft);border-radius:var(--r);
-    background:linear-gradient(180deg,var(--panel-2),var(--panel));padding:clamp(28px,5vw,48px);text-align:center}
+  .contact-box{border:1px solid var(--line-soft);border-radius:var(--r);background:linear-gradient(180deg,var(--panel-2),var(--panel));padding:clamp(28px,5vw,48px);text-align:center}
   .contact-box h2{font-family:var(--disp);font-weight:700;font-size:clamp(24px,4vw,40px);margin-bottom:12px}
   .contact-box p{color:var(--ink-dim);max-width:46ch;margin:0 auto 26px}
   .contact-lines{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-  .cl{font-family:var(--mono);font-size:13px;color:var(--ink);border:1px solid var(--line-soft);
-    border-radius:var(--r);padding:11px 16px;display:inline-flex;gap:9px;align-items:center}
+  .cl{font-family:var(--mono);font-size:13px;color:var(--ink);border:1px solid var(--line-soft);border-radius:var(--r);padding:11px 16px;display:inline-flex;gap:9px;align-items:center}
   .cl:hover{border-color:var(--signal);color:var(--signal);text-decoration:none}
   .cl .k{color:var(--ink-faint)}
 
   footer{padding:26px 0 40px;border-top:1px solid var(--line)}
-  .foot-in{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
-    font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.05em}
+  .foot-in{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.05em}
 
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
@@ -263,26 +193,26 @@
     .cert-grid{grid-template-columns:1fr 1fr}
     .two-col{grid-template-columns:1fr}
     .rail-nav{display:none}
-    .seg-head{grid-template-columns:56px 1fr auto;gap:10px}
+    .seg-head{grid-template-columns:100px 1fr auto;gap:10px}
     .seg-body-in{padding-left:20px}
   }
   @media(max-width:560px){
     .proj-grid,.cert-grid,.tiles{grid-template-columns:1fr}
     .tc{display:none}
-    .seg-tc{display:none}
     .seg-head{grid-template-columns:1fr auto}
+    .seg-yr{display:none}
+    .seg-title .org{padding-left:14px}
   }
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     .reveal{opacity:1;transform:none}
   }
 
-  /* ---------- PRINT: clean traditional resume ---------- */
+  /* ---------- PRINT ---------- */
   @media print{
     :root{--ink:#111;--ink-dim:#333;--ink-faint:#555}
     body{background:#fff;color:#111}
-    .rail,.hero .tiles,.cta-row,.src-tag,.filter-bar,.btn-print,.rail-nav,
-    .seg-caret,.seg-badge.live,.card .stat,footer .foot-in .rt,.contact-box p,.contact .eyebrow{display:none!important}
+    .rail,.tiles,.cta-row,.src-tag,.filter-bar,.seg-caret,.seg-badge.live,.card .stat,.card .open,.foot-in .rt,.contact-box p,.contact .eyebrow{display:none!important}
     section,.hero{border:none;padding:14px 0}
     .wrap{max-width:100%;padding:0}
     h1{font-size:26px;color:#000}
@@ -291,12 +221,11 @@
     .sec-head .idx,.sec-head .meta{display:none}
     .lede{color:#333;max-width:100%}
     .skill-grid,.proj-grid,.cert-grid,.two-col{gap:8px}
-    .skill-card,.card,.cert,.row,.rundown,.seg,.contact-box{border:1px solid #bbb!important;background:#fff!important;break-inside:avoid}
+    .skill-card,.card,.cert,.row,.rundown,.seg,.contact-box{border:1px solid #bbb!important;background:#fff!important;break-inside:avoid;transform:none!important}
     .seg-body{max-height:none!important}
     .seg-body-in{padding:0 16px 14px 16px}
     .chip,.card .tags span,.cl{color:#222;border-color:#999}
     a{color:#111;text-decoration:none}
-    .card:hover,.tile{transform:none}
     .contact-lines{justify-content:flex-start}
   }
 </style>
@@ -308,17 +237,19 @@
   <div class="rail-in">
     <div class="chan">
       <span class="onair"><span class="dot"></span>ON AIR</span>
-      <span class="id">CH.01 · <b>K. BASILIO</b></span>
+      <span class="chan-id">
+        <span class="k">Channel</span>
+        <span class="v">K. N. BASILIO</span>
+      </span>
     </div>
     <nav class="rail-nav" aria-label="Section navigation">
       <a href="#signal">Signal Path</a>
       <a href="#rundown">Rundown</a>
       <a href="#log">Eng. Log</a>
-      <a href="#certs">Certs</a>
+      <a href="#certs">Calibration</a>
       <a href="#contact">Contact</a>
     </nav>
-    <span class="tc" id="tc" aria-label="Live UTC timecode">--:--:--:--</span>
-    <button class="btn-print" id="print" title="Export a clean printable resume">↧ RESUME.PDF</button>
+    <span class="tc" id="tc" aria-label="Local timecode, UTC plus 8">--:--:--:--</span>
   </div>
 </header>
 
@@ -328,28 +259,30 @@
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <span class="src-tag"><span class="sq"></span>SRC 01 · PRIMARY FEED · NOMINAL</span>
+          <span class="src-tag"><span class="sq"></span>PRIMARY FEED · NOMINAL</span>
           <h1>Kenneth Robert<br />Basilio
             <span class="sub">Master Control Room &amp; Broadcast Systems Engineer</span>
           </h1>
-          <p class="lede">13+ years keeping multi-channel playout on-air — from routing, ingest and QC on the monitoring wall to building the automation, monitoring and media tooling behind it. Electronics &amp; Communications Engineer who codes.</p>
+          <p class="lede">15+ years keeping multi-channel playout on-air — from routing, ingest and QC on the monitoring wall to building the automation, workflows, monitoring and media tooling behind it. An Electronics &amp; Communications Engineer who adapts and applies changes to its field of expertise.</p>
           <div class="cta-row">
-            <a class="cta primary" href="#rundown">View Rundown ▸</a>
+            <a class="cta primary" href="#rundown">View Rundown &#9656;</a>
+            <!-- PARAM: RESUME_PATH — see PARAMETERS.md -->
+            <a class="cta primary" href="assets/resume/Kenneth_Robert_Basilio_CV.pdf" download>&#8615; Download Resume</a>
             <a class="cta ghost" href="#log">Engineering Log</a>
-            <button class="cta ghost" id="print2">↧ Download Resume</button>
           </div>
         </div>
         <div class="tiles" aria-label="Career status tiles">
-          <div class="tile"><div class="num">13<small>+</small></div><div class="cap">Years On-Air</div></div>
-          <div class="tile"><div class="num">24<small>/7</small></div><div class="cap">Operations Basis</div></div>
+          <div class="tile"><div class="num">15<small>+</small></div><div class="cap">Years On-Air</div></div>
+          <div class="tile"><div class="num">24<small>/7</small></div><div class="cap">System Support and Operations</div></div>
           <div class="tile"><div class="num">Multi</div><div class="cap">Channel Playout</div></div>
           <div class="tile"><div class="num">100<small>%</small></div><div class="cap">Continuity Focus</div></div>
+          <div class="tile"><div class="num">Infra</div><div class="cap">On-Premise and Cloud Playout, Livestreaming</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== SIGNAL PATH / SKILLS ===== -->
+  <!-- ===== SIGNAL PATH ===== -->
   <section id="signal">
     <div class="wrap">
       <div class="sec-head reveal">
@@ -365,13 +298,13 @@
             <span class="chip">Video Servers</span><span class="chip">Routing &amp; Switching</span>
             <span class="chip">Playout</span><span class="chip">Ingest / QC</span>
             <span class="chip">Datamover</span><span class="chip">Logo Inserters</span>
-            <span class="chip">Frame Sync</span><span class="chip">SDI · MPEG-TS · SRT · RTMP · HLS</span>
+            <span class="chip">Frame Sync</span><span class="chip">SDI &middot; MPEG-TS &middot; SRT &middot; RTMP &middot; HLS</span>
           </div>
         </div>
         <div class="skill-card reveal">
           <h3>Development &amp; Scripting</h3>
           <div class="chips">
-            <span class="chip">Python</span><span class="chip">C</span>
+            <span class="chip">Claude AI</span><span class="chip">Python</span><span class="chip">C</span>
             <span class="chip">Node.js / Express</span><span class="chip">Vanilla JS</span>
             <span class="chip">HTML / CSS</span><span class="chip">FFmpeg</span>
             <span class="chip">GStreamer</span><span class="chip">Bot Framework SDK</span>
@@ -398,26 +331,48 @@
     </div>
   </section>
 
-  <!-- ===== RUNDOWN / EXPERIENCE ===== -->
+  <!-- ===== RUNDOWN ===== -->
   <section id="rundown">
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="idx">02</span>
         <h2>Rundown</h2>
-        <span class="meta">// PROFESSIONAL EXPERIENCE · TAP TO EXPAND</span>
+        <span class="meta">// PROFESSIONAL EXPERIENCE &middot; TAP TO EXPAND</span>
       </div>
       <div class="rundown reveal">
 
         <div class="seg" aria-expanded="false">
           <button class="seg-head" type="button">
-            <span class="seg-tc">SEG 01</span>
+            <span class="seg-yr">2011 &ndash; Present</span>
             <span class="seg-title">
-              <span class="role">Master Control Room Engineer</span>
-              <span class="org">ABS-CBN Corporation · Technical Operations Center</span>
+              <span class="role">TOC System Support Engineer</span>
+              <span class="org">ABS-CBN Corporation &#9679; Media Technology Division &#9679; Network Operations Center</span>
             </span>
             <span style="display:flex;align-items:center;gap:12px">
               <span class="seg-badge live">On Air</span>
-              <span class="seg-caret">▸</span>
+              <span class="seg-caret">&#9656;</span>
+            </span>
+          </button>
+          <div class="seg-body"><div class="seg-body-in"><ul>
+            <li>Maintain program continuity of the multi-channel playout system and TOC workflows &mdash; supporting video servers, broadcast automation, datamover, database, comms, and video routers.</li>
+            <li>Manage assets through archiving, transcoding and restore workflows to meet playout demand.</li>
+            <li>Design and improve broadcast systems for future industry demands.</li>
+            <li>Configure automations, video routers, logo inserters, frame synchronizers and graphics machines for the playout system.</li>
+            <li>Investigate operational incidents via device and software log analysis, delivering timely troubleshooting.</li>
+            <li>Coordinate with equipment suppliers on inquiries, configuration and escalation support.</li>
+          </ul></div></div>
+        </div>
+
+        <div class="seg" aria-expanded="false">
+          <button class="seg-head" type="button">
+            <span class="seg-yr">2011 &ndash; Present</span>
+            <span class="seg-title">
+              <span class="role">Master Control Room Engineer</span>
+              <span class="org">ABS-CBN Corporation &#9679; Media Technology Division &#9679; Network Operations Center</span>
+            </span>
+            <span style="display:flex;align-items:center;gap:12px">
+              <span class="seg-badge live">On Air</span>
+              <span class="seg-caret">&#9656;</span>
             </span>
           </button>
           <div class="seg-body"><div class="seg-body-in"><ul>
@@ -432,36 +387,14 @@
 
         <div class="seg" aria-expanded="false">
           <button class="seg-head" type="button">
-            <span class="seg-tc">SEG 02</span>
-            <span class="seg-title">
-              <span class="role">TOC System Support Engineer</span>
-              <span class="org">ABS-CBN Corporation</span>
-            </span>
-            <span style="display:flex;align-items:center;gap:12px">
-              <span class="seg-badge arch">Archive</span>
-              <span class="seg-caret">▸</span>
-            </span>
-          </button>
-          <div class="seg-body"><div class="seg-body-in"><ul>
-            <li>Maintained program continuity of the multi-channel playout system and TOC workflows — supporting video servers, broadcast automation, datamover, database, comms, and video routers.</li>
-            <li>Managed assets through archiving, transcoding and restore workflows to meet playout demand.</li>
-            <li>Designed and improved broadcast systems for future industry demands.</li>
-            <li>Configured automations, video routers, logo inserters, frame synchronizers and graphics machines for the playout system.</li>
-            <li>Investigated operational incidents via device and software log analysis, delivering timely troubleshooting.</li>
-            <li>Coordinated with equipment suppliers on inquiries, configuration and escalation support.</li>
-          </ul></div></div>
-        </div>
-
-        <div class="seg" aria-expanded="false">
-          <button class="seg-head" type="button">
-            <span class="seg-tc">SEG 03</span>
+            <span class="seg-yr">2010 &ndash; 2011</span>
             <span class="seg-title">
               <span class="role">Headend Staff</span>
-              <span class="org">Cablelink and Holdings Corporation</span>
+              <span class="org">Cablelink and Holdings Corporation &#9679; Engineering Division &#9679; Technical Operations Center</span>
             </span>
             <span style="display:flex;align-items:center;gap:12px">
               <span class="seg-badge arch">Archive</span>
-              <span class="seg-caret">▸</span>
+              <span class="seg-caret">&#9656;</span>
             </span>
           </button>
           <div class="seg-body"><div class="seg-body-in"><ul>
@@ -475,108 +408,107 @@
     </div>
   </section>
 
-  <!-- ===== ENGINEERING LOG / PROJECTS ===== -->
+  <!-- ===== ENGINEERING LOG ===== -->
   <section id="log">
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="idx">03</span>
         <h2>Engineering Log</h2>
-        <span class="meta">// SELECTED BUILDS · FILTER BY STACK</span>
+        <span class="meta">// SELECTED BUILDS &middot; FILTER BY STACK</span>
       </div>
       <div class="filter-bar reveal" role="group" aria-label="Filter projects by technology">
         <button class="filter" data-f="all" aria-pressed="true">All</button>
         <button class="filter" data-f="node" aria-pressed="false">Node.js</button>
         <button class="filter" data-f="ffmpeg" aria-pressed="false">FFmpeg</button>
-        <button class="filter" data-f="python" aria-pressed="false">Python</button>
-        <button class="filter" data-f="ai" aria-pressed="false">AI/ML</button>
+        <button class="filter" data-f="claude" aria-pressed="false">Claude AI</button>
         <button class="filter" data-f="monitor" aria-pressed="false">Monitoring</button>
       </div>
       <div class="proj-grid">
 
-        <article class="card reveal" data-tags="ffmpeg node">
+        <!-- PARAM: PROJECT_LINKS — see PARAMETERS.md -->
+        <a class="card reveal" href="projects/media-converter.html" data-tags="ffmpeg node claude">
           <div class="top"><span class="kind">WEB APP</span><span class="stat"></span></div>
           <h3>Universal Media Converter</h3>
           <p>FFmpeg-driven web app for batch audio/video transcoding with broadcast-specific presets and a clean browser UI.</p>
-          <div class="tags"><span>FFmpeg</span><span>Node.js</span><span>Web UI</span></div>
-        </article>
+          <div class="tags"><span>FFmpeg</span><span>Node.js</span><span>Claude AI</span></div>
+          <span class="open">Open log &#9656;</span>
+        </a>
 
-        <article class="card reveal" data-tags="ffmpeg monitor">
+        <a class="card reveal" href="projects/compliance-recorder.html" data-tags="ffmpeg monitor claude">
           <div class="top"><span class="kind">TOC TOOL</span><span class="stat"></span></div>
           <h3>Compliance Recording Launcher</h3>
           <p>Multi-channel 24/7 SDI compliance capture via FFmpeg/DeckLink with per-channel auto-restart, countdowns and segment logs.</p>
-          <div class="tags"><span>FFmpeg</span><span>DeckLink</span><span>Windows</span></div>
-        </article>
+          <div class="tags"><span>FFmpeg</span><span>DeckLink</span><span>Claude AI</span></div>
+          <span class="open">Open log &#9656;</span>
+        </a>
 
-        <article class="card reveal" data-tags="node">
+        <a class="card reveal" href="projects/teams-chatbot.html" data-tags="node claude">
           <div class="top"><span class="kind">AUTOMATION</span><span class="stat"></span></div>
-          <h3>Broadcast Automation Chatbot</h3>
-          <p>Approval-gated bot that delivers playlists and documents as PDFs through a controlled workflow, integrated with playout automation.</p>
-          <div class="tags"><span>Node.js</span><span>Bot Framework</span><span>Workflow</span></div>
-        </article>
+          <h3>Broadcast Automation Teams Chatbot</h3>
+          <p>Approval-gated Teams bot that delivers playlists and documents as PDFs through a controlled workflow, integrated with playout automation.</p>
+          <div class="tags"><span>Node.js</span><span>Bot Framework</span><span>Claude AI</span></div>
+          <span class="open">Open log &#9656;</span>
+        </a>
 
-        <article class="card reveal" data-tags="python ai">
-          <div class="top"><span class="kind">AI TOOL</span><span class="stat"></span></div>
-          <h3>Offline Live Transcription</h3>
-          <p>Real-time speech-to-text for control-room use — faster-whisper on a FastAPI + WebSocket backend, running fully offline.</p>
-          <div class="tags"><span>Python</span><span>FastAPI</span><span>faster-whisper</span></div>
-        </article>
-
-        <article class="card reveal" data-tags="node monitor">
+        <a class="card reveal" href="projects/encoder-monitor.html" data-tags="node monitor claude">
           <div class="top"><span class="kind">DASHBOARD</span><span class="stat"></span></div>
-          <h3>Encoder Monitoring Panel</h3>
-          <p>Web control &amp; monitoring panel for live encoders — node health, running events and operational status at a glance.</p>
-          <div class="tags"><span>Node.js</span><span>Express</span><span>Monitoring</span></div>
-        </article>
+          <h3>Livestream Encoder Monitoring Panel</h3>
+          <p>Web control &amp; monitoring panel for live encoders &mdash; node health, running events and operational status at a glance.</p>
+          <div class="tags"><span>Node.js</span><span>Express</span><span>Claude AI</span></div>
+          <span class="open">Open log &#9656;</span>
+        </a>
 
-        <article class="card reveal" data-tags="node monitor">
+        <a class="card reveal" href="projects/ip-multiviewer.html" data-tags="node monitor claude">
           <div class="top"><span class="kind">MONITORING</span><span class="stat"></span></div>
-          <h3>IP Multiviewer &amp; Schedule Viewer</h3>
-          <p>Browser-based multiviewer tile wall plus channel schedule display, built on the TOC's Node.js + flat-JSON stack.</p>
-          <div class="tags"><span>Node.js</span><span>MPEG-TS</span><span>WebRTC</span></div>
-        </article>
+          <h3>IP Multiviewer</h3>
+          <p>Browser-based multiviewer tile wall for IP feeds, built on the TOC's Node.js + flat-JSON stack.</p>
+          <div class="tags"><span>Node.js</span><span>MPEG-TS</span><span>Claude AI</span></div>
+          <span class="open">Open log &#9656;</span>
+        </a>
 
       </div>
     </div>
   </section>
 
-  <!-- ===== CERTS ===== -->
+  <!-- ===== CALIBRATION ===== -->
   <section id="certs">
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="idx">04</span>
         <h2>Calibration</h2>
-        <span class="meta">// TRAINING &amp; CERTIFICATION</span>
+        <span class="meta">// TRAINING &amp; CERTIFICATION &middot; TAP TO VIEW</span>
       </div>
       <div class="cert-grid">
-        <div class="cert reveal"><div class="yr">2022</div><div class="nm">Six Sigma Yellow Belt</div><div class="by">6Sigma Study</div></div>
-        <div class="cert reveal"><div class="yr">2021</div><div class="nm">Project Management Fundamentals</div><div class="by">MST Connect</div></div>
-        <div class="cert reveal"><div class="yr">2020</div><div class="nm">Microsoft Azure Fundamentals · AZ-900</div><div class="by">Microsoft</div></div>
-        <div class="cert reveal"><div class="yr">2017</div><div class="nm">Etere Automation · Advanced</div><div class="by">ETERE</div></div>
-        <div class="cert reveal"><div class="yr">2017</div><div class="nm">VMware vSphere 6.0 · ICM</div><div class="by">Nexus IT Training Center</div></div>
-        <div class="cert reveal"><div class="yr">2017</div><div class="nm">Cisco CCNA v3 Bootcamp</div><div class="by">Nexus IT Training Center</div></div>
-        <div class="cert reveal"><div class="yr">2014</div><div class="nm">Harmonic Spectrum · MediaCenter / Mediaport / ChannelPort</div><div class="by">Harmonic Inc.</div></div>
+        <!-- PARAM: CERT_LINKS — see PARAMETERS.md -->
+        <a class="cert reveal" href="certificates.html#six-sigma"><div class="yr">2022</div><div class="nm">Six Sigma Yellow Belt</div><div class="by">6Sigma Study</div></a>
+        <a class="cert reveal" href="certificates.html#pm-fundamentals"><div class="yr">2021</div><div class="nm">Project Management Fundamentals</div><div class="by">MST Connect</div></a>
+        <a class="cert reveal" href="certificates.html#az-900"><div class="yr">2020</div><div class="nm">Microsoft Azure Fundamentals &middot; AZ-900</div><div class="by">Microsoft</div></a>
+        <a class="cert reveal" href="certificates.html#etere"><div class="yr">2017</div><div class="nm">Etere Automation &middot; Advanced</div><div class="by">ETERE</div></a>
+        <a class="cert reveal" href="certificates.html#vmware"><div class="yr">2017</div><div class="nm">VMware vSphere 6.0 &middot; ICM</div><div class="by">Nexus IT Training Center</div></a>
+        <a class="cert reveal" href="certificates.html#ccna"><div class="yr">2017</div><div class="nm">Cisco CCNA v3 Bootcamp</div><div class="by">Nexus IT Training Center</div></a>
+        <a class="cert reveal" href="certificates.html#harmonic"><div class="yr">2014</div><div class="nm">Harmonic Spectrum &middot; MediaCenter / Mediaport / ChannelPort</div><div class="by">Harmonic Inc.</div></a>
       </div>
     </div>
   </section>
 
-  <!-- ===== EDUCATION + LEADERSHIP/RESEARCH ===== -->
+  <!-- ===== OFF-AIR RECORD ===== -->
   <section id="record">
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="idx">05</span>
         <h2>Off-Air Record</h2>
-        <span class="meta">// EDUCATION · LEADERSHIP · RESEARCH</span>
+        <span class="meta">// EDUCATION &middot; LEADERSHIP &middot; RESEARCH</span>
       </div>
       <div class="two-col">
         <div>
           <span class="label" style="display:block;margin-bottom:14px">Education</span>
           <div class="stack">
             <div class="row reveal">
-              <div class="r-top"><span class="r-title">BS Electronics &amp; Communications Engineering</span><span class="r-yr">2005–2010</span></div>
+              <div class="r-top"><span class="r-title">BS Electronics &amp; Communications Engineering</span><span class="r-yr">2005&ndash;2010</span></div>
               <div class="r-sub">University of Santo Tomas</div>
             </div>
             <div class="row reveal">
-              <div class="r-top"><span class="r-title">Secondary Education Diploma</span><span class="r-yr">2001–2005</span></div>
+              <div class="r-top"><span class="r-title">Secondary Education Diploma</span><span class="r-yr">2001&ndash;2005</span></div>
               <div class="r-sub">Paco Catholic School</div>
             </div>
           </div>
@@ -584,24 +516,24 @@
           <div class="row reveal">
             <div class="r-top"><span class="r-title">Power-Line Data Communications System</span><span class="r-yr">2012</span></div>
             <div class="r-sub">BPSK &amp; Convolutional Coding</div>
-            <p>Designed a modem enabling data transfer over intra-building electrical outlets — exploring internet delivery across the existing power grid.</p>
+            <p>Designed a modem enabling data transfer over intra-building electrical outlets &mdash; exploring internet delivery across the existing power grid.</p>
           </div>
         </div>
         <div>
           <span class="label" style="display:block;margin-bottom:14px">Leadership &amp; Activities</span>
           <div class="stack">
             <div class="row reveal">
-              <div class="r-top"><span class="r-title">VP for Radio Operations</span><span class="r-yr">2009–2010</span></div>
+              <div class="r-top"><span class="r-title">VP for Radio Operations</span><span class="r-yr">2009&ndash;2010</span></div>
               <div class="r-sub">UST DX-1 Amateur Radio Club</div>
               <p>Managed radio equipment and assets for university-wide and local events.</p>
             </div>
             <div class="row reveal">
-              <div class="r-top"><span class="r-title">Section &amp; News Editor</span><span class="r-yr">2008–2009</span></div>
+              <div class="r-top"><span class="r-title">Section &amp; News Editor</span><span class="r-yr">2008&ndash;2009</span></div>
               <div class="r-sub">Thomasian Engineer Media</div>
               <p>Edited Specials and News content for the Faculty of Engineering's official publication.</p>
             </div>
             <div class="row reveal">
-              <div class="r-top"><span class="r-title">Project / Assistant Head</span><span class="r-yr">2008–2009</span></div>
+              <div class="r-top"><span class="r-title">Project / Assistant Head</span><span class="r-yr">2008&ndash;2009</span></div>
               <div class="r-sub">General Information Quiz Contest</div>
               <p>Led budget planning, communications and division coordination for the faculty-wide event.</p>
             </div>
@@ -619,9 +551,11 @@
         <h2>Let's put something on-air.</h2>
         <p>Open to broadcast, media-tech and broadcast-IT engineering roles. Reach the master control desk direct:</p>
         <div class="contact-lines">
-          <a class="cl" href="mailto:kennethrobert.basilio@yahoo.com"><span class="k">MAIL</span>kennethrobert.basilio@yahoo.com</a>
+          <!-- PARAM: CONTACT_DETAILS — see PARAMETERS.md -->
+          <a class="cl" href="mailto:kennethr.basilio@gmail.com"><span class="k">MAIL</span>kennethr.basilio@gmail.com</a>
+          <a class="cl" href="mailto:kennethrobert.basilio@yahoo.com"><span class="k">ALT</span>kennethrobert.basilio@yahoo.com</a>
           <a class="cl" href="tel:+639165155697"><span class="k">TEL</span>+63 916 515 5697</a>
-          <span class="cl"><span class="k">LOC</span>General Trias, Cavite · Philippines</span>
+          <span class="cl"><span class="k">LOC</span>General Trias, Cavite &middot; Philippines</span>
         </div>
       </div>
     </div>
@@ -630,8 +564,8 @@
 
 <footer>
   <div class="wrap foot-in">
-    <span>© <span id="yr"></span> KENNETH ROBERT BASILIO · ALL SIGNALS NOMINAL</span>
-    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS · NO TRACKERS</span>
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
   </div>
 </footer>
 
@@ -639,60 +573,63 @@
 (function(){
   "use strict";
 
-  // ---- Live UTC timecode (HH:MM:SS:FF) ----
-  var tcEl=document.getElementById('tc');
-  function pad(n){return String(n).padStart(2,'0');}
+  /* PARAM: TIMECODE settings — see PARAMETERS.md */
+  var TZ_OFFSET_HOURS = 8;      /* UTC+8 (Philippine Time) */
+  var TZ_LABEL        = 'UTC+8';
+  var FPS             = 25;
+
+  var tcEl = document.getElementById('tc');
+  function pad(n){ return String(n).padStart(2,'0'); }
   function tick(){
-    if(!tcEl)return;
-    var d=new Date();
-    var ff=Math.floor((d.getUTCMilliseconds()/1000)*25); // pseudo 25fps
-    tcEl.textContent=pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())+':'+pad(d.getUTCSeconds())+':'+pad(ff)+' UTC';
+    if(!tcEl) return;
+    var t = new Date(Date.now() + TZ_OFFSET_HOURS * 3600 * 1000);
+    var ff = Math.floor((t.getUTCMilliseconds()/1000) * FPS);
+    tcEl.textContent = pad(t.getUTCHours())+':'+pad(t.getUTCMinutes())+':'+
+                       pad(t.getUTCSeconds())+':'+pad(ff)+' '+TZ_LABEL;
   }
-  tick(); setInterval(tick,40);
+  tick();
+  setInterval(tick, 40);
 
-  // ---- Year ----
-  var yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
+  var yr = document.getElementById('yr');
+  if (yr) yr.textContent = new Date().getFullYear();
 
-  // ---- Rundown expand/collapse ----
+  /* Rundown expand / collapse */
   document.querySelectorAll('.seg').forEach(function(seg){
-    var head=seg.querySelector('.seg-head');
-    var body=seg.querySelector('.seg-body');
-    head.addEventListener('click',function(){
-      var open=seg.getAttribute('aria-expanded')==='true';
-      seg.setAttribute('aria-expanded', open?'false':'true');
-      body.style.maxHeight = open ? '0px' : (body.scrollHeight+40)+'px';
+    var head = seg.querySelector('.seg-head');
+    var body = seg.querySelector('.seg-body');
+    head.addEventListener('click', function(){
+      var open = seg.getAttribute('aria-expanded') === 'true';
+      seg.setAttribute('aria-expanded', open ? 'false' : 'true');
+      body.style.maxHeight = open ? '0px' : (body.scrollHeight + 40) + 'px';
     });
   });
 
-  // ---- Project filter ----
-  var filters=document.querySelectorAll('.filter');
-  var cards=document.querySelectorAll('.card');
+  /* Project filter */
+  var filters = document.querySelectorAll('.filter');
+  var cards   = document.querySelectorAll('.card');
   filters.forEach(function(btn){
-    btn.addEventListener('click',function(){
-      filters.forEach(function(b){b.setAttribute('aria-pressed','false');});
+    btn.addEventListener('click', function(){
+      filters.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
       btn.setAttribute('aria-pressed','true');
-      var f=btn.getAttribute('data-f');
+      var f = btn.getAttribute('data-f');
       cards.forEach(function(c){
-        var show = f==='all' || (c.getAttribute('data-tags')||'').split(' ').indexOf(f)>-1;
-        c.classList.toggle('hide',!show);
+        var tags = (c.getAttribute('data-tags') || '').split(' ');
+        var show = (f === 'all') || tags.indexOf(f) > -1;
+        c.classList.toggle('hide', !show);
       });
     });
   });
 
-  // ---- Print / export ----
-  function doPrint(){window.print();}
-  ['print','print2'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.addEventListener('click',doPrint);
-  });
-
-  // ---- Scroll reveal ----
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-    },{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  /* Scroll reveal */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
   } else {
-    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
   }
 })();
 </script>
