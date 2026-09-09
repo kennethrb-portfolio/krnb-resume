@@ -34,12 +34,12 @@
   <div class="wrap">
     <div class="phead">
       <span class="kind">TOC Tool and Web App</span>
-      <h1>Compliance Recording<br />Launcher</h1>
-      <p class="lede">Compliance recording only has value if it is continuous. A capture that dies quietly at two in the morning is discovered when someone needs the material and finds a hole. This launcher starts all four SDI channels, watches them, and restarts anything that stops.</p>
+      <h1>Compliance Recording Launcher and<br />Tape On Air Web Access</h1>
+      <p class="lede">Compliance recording only has value if it is continuous. A capture that dies quietly at two in the morning is discovered when someone needs the material and finds a hole. This launcher starts all configured SDI channels, watches them, and restarts anything that stops. Recorded files are served over corporate user log-in web application. Trimming, merging and export with watermark and logging available.</p>
       <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
       <div class="spec">
         <span><b>Role</b>Sole developer</span>
-        <span><b>Built</b>2024&ndash;2025</span>
+        <span><b>Built</b>March 2026</span>
         <span><b>Channels</b>SDI 1&ndash;4</span>
         <span><b>Deployment</b>On-premise</span>
       </div>
@@ -93,20 +93,20 @@
 
         <section>
           <h2>The problem</h2>
-          <p>Four SDI feeds needed continuous capture. Started by hand, they stayed up until something interrupted them &mdash; a dropped signal, a full disk, a process that exited without saying why. Nobody was watching at the moment of failure, so the gap was found later, by someone who needed exactly that material.</p>
-          <p>A compliance record with holes in it is not a compliance record.</p>
+          <p>TOC SDI feeds needed continuous capture. Nobody was watching at the moment of failure, so the gap was found later, by someone who needed exactly that material.</p>
+          <p>Airing discrepancies cannot be validated due to lack of on-air recording.</p>
         </section>
 
         <section>
           <h2>The build</h2>
           <p>A launcher sits over four FFmpeg capture processes reading from the SDI inputs, and makes their state visible in one place.</p>
-          <ul><li>Per-channel start and stop, with all four manageable from a single screen</li><li>Automatic restart when a capture process exits unexpectedly</li><li>Live status per channel, so a stopped recorder is obvious rather than silent</li><li>Segmented output files, keeping any single failure contained to one segment</li></ul>
+          <ul><li>Per-channel start and stop, with all four manageable from a single screen</li><li>Overlay text to properly label timestamp and channel being recorded.</li><li>Live status per channel, so a stopped recorder is obvious rather than silent</li><li>Segmented output files, keeping any single failure contained to one segment</li><li>All parameters configurable with auto purging to prevent local storage running out of space.</li></ul>
         </section>
 
         <section>
           <h2>The outcome</h2>
           <!-- EDIT: replace with your real figures before publishing. -->
-          <p>Capture became unattended. Failures still happen &mdash; signal drops, disks fill &mdash; but they now self-recover in seconds and are visible while they happen, instead of surfacing as a missing hour weeks later.</p>
+          <p>Compliance recording met using available resources and without needing to purchase enterprise level solution that does the same, effectively saving millions. On-air discrepancies that aired are now logged and outages are measured accurately, and disputes over material airing and proof of airing can now be easily accessed by authorized personnels.</p>
         </section>
 
       </div>

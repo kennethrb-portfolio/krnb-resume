@@ -35,11 +35,11 @@
     <div class="phead">
       <span class="kind">Automation</span>
       <h1>Playout Playlist and<br />Report Live Service</h1>
-      <p class="lede">The playlist lived inside the automation system, which meant everyone outside the control room had to ask someone inside it. This service takes the live schedule out of Etere and publishes it as a self-refreshing page anyone with access can open &mdash; plus the scheduled reports the operation runs on.</p>
+      <p class="lede">The playlist lived inside the automation system, which meant everyone outside the control room had to ask someone inside it or gain access over a licensed workflow. This service takes the live schedule out of Etere and publishes it as a self-refreshing page anyone with access can open &mdash; plus the scheduled reports the operation runs on.</p>
       <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
       <div class="spec">
         <span><b>Role</b>Sole developer</span>
-        <span><b>Built</b>2025&ndash;2026</span>
+        <span><b>Built</b>July 2026</span>
         <span><b>Version</b>v6.0</span>
         <span><b>Deployment</b>On-premise</span>
       </div>
@@ -93,13 +93,13 @@
 
         <section>
           <h2>The problem</h2>
-          <p>Schedule information was locked behind an automation client. Anyone who needed to know what was on, what was next, or what ran yesterday had to ask an operator, which interrupted the operator and delayed the person asking. Reports were generated manually on a rhythm somebody had to remember.</p>
+          <p>Schedule information was locked behind an automation client. Partner channels outside the organization who needed to know what was on, what was next, or what ran yesterday had to ask a TOC operator, which interrupted the operator and delayed the person asking. A client needs a license to access the reports inside the automation, which entails costs. Reports were generated manually on a periodic basis.</p>
         </section>
 
         <section>
           <h2>The build</h2>
-          <p>A Node service pulls each channel's playlist from Etere and renders it as an ordinary web page, published where the rest of the organisation already works.</p>
-          <ul><li>Three days on one page &mdash; yesterday, today and tomorrow &mdash; refreshing in place rather than reloading and losing the reader's position</li><li>An on-air card driven by live playout status, with a running overrun counter</li><li>Polling that accelerates during an overrun, when the schedule is moving fastest and accuracy matters most</li><li>Hourly PDFs with per-output retention, plus segmented production guides and daily runs generated on schedule</li><li>Per-channel configuration, so each channel independently controls which outputs it produces</li><li>Admin dashboard behind directory authentication, with manual generation for operators</li></ul>
+          <p>A Node service pulls each channel's playlist from Etere and renders it as an ordinary web page, published where the rest of the organisation already works. Delivered as an HTML file in a MS Sharepoint site every 2 minutes to ensure that the playlist being monitored stay fresh</p>
+          <ul><li>Three days on one page &mdash; yesterday, today and tomorrow &mdash; refreshing in place rather than reloading and losing the reader's position</li><li>An on-air card driven by live playout status, with a running overrun counter</li><li>Polling that accelerates during a live overrun, when the schedule is moving fastest and accuracy matters most</li><li>Hourly PDFs with per-output retention, plus segmented production guides and daily runs generated on schedule</li><li>Per-channel configuration, so each channel independently controls which outputs it produces</li><li>Admin dashboard behind directory authentication, with manual generation for operators</li><li>Delivery of reports done over Microsoft Teams Group Chat and over e-mail via Power Automate, driven by configured triggers as per clients preferences.</li></ul>
         </section>
 
         <section>
@@ -111,7 +111,7 @@
         <section>
           <h2>The outcome</h2>
           <!-- EDIT: replace with your real figures before publishing. -->
-          <p>Schedule information became self-service. The control room stopped fielding questions it had to stop work to answer, and the reports that used to depend on someone remembering now arrive on their own.</p>
+          <p>Schedule information and menial tasks are handled automatically. TOC operator and MCR stopped fielding questions it had to stop work to answer, and the reports that used to depend on someone now arrive on their own. Services moved towards automated and self-service, effectively raising TOC operators productivity and focus on tasks that matter more. Furthermore, it eliminated the need to purchase licenses per user to access the services and reports.</p>
         </section>
 
       </div>
@@ -123,9 +123,8 @@
             <span class="chip">Node.js</span>
             <span class="chip">Express</span>
             <span class="chip">Playwright</span>
-            <span class="chip">cheerio</span>
             <span class="chip">SharePoint</span>
-            <span class="chip">Caddy</span>
+            <span class="chip">Power Automate</span>
           </div>
         </div>
 
@@ -133,7 +132,7 @@
           <h3>At a glance</h3>
           <div class="kv">
             <div><span class="k">Category</span><span class="v">Distribution</span></div>
-            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser, MS Teams Chat, e-mail</span></div>
             <div><span class="k">Scope</span><span class="v">Multi-channel</span></div>
             <div><span class="k">Availability</span><span class="v">Two-server HA</span></div>
           </div>
@@ -143,7 +142,7 @@
           <h3>Impact</h3>
           <!-- EDIT: replace both metrics with your real numbers. -->
           <div class="metric">
-            <div class="n">3 days</div>
+            <div class="n">Real-time Playlist</div>
             <div class="l">Yesterday, today and tomorrow on one self-refreshing page</div>
           </div>
           <div class="metric">
