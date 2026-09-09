@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daily Operations Logs Verification App — Kenneth Robert Basilio</title>
+<meta name="description" content="A pre-air verification tool that reconciles the traffic system playlist against the uploaded automation playlist to catch commercial discrepancies before they reach air." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="Daily Operations Logs Verification App" />
+<meta property="og:description" content="Pre-air reconciliation of traffic and automation playlists — catching commercial discrepancies before they reach air." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">DOL VERIFICATION APP</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <!-- ===== PAGE HEAD ===== -->
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">TOC Tool and Web App</span>
+      <h1>Daily Operations Logs<br />Verification App</h1>
+      <p class="lede">Commercial discrepancies between the traffic system and playout automation used to surface only after a spot had already missed air. This tool moves that check forward — an operator reconciles both playlists, flags mismatches and signs off, before the log goes to air.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2025</span>
+        <span><b>Users</b>TOC operators</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW MONITOR ===== -->
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video
+          controls
+          playsinline
+          preload="none"
+          poster="media/dol-verifier/demo-poster.jpg">
+          <source src="media/dol-verifier/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/dol-verifier/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; verification pass</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/dol-verifier/demo.mp4"
+           data-type="video" data-label="Demo — verification pass" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/dol-verifier/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo &mdash; verification pass</span>
+        </a>
+        <a class="thumb" href="media/dol-verifier/shot-01.png"
+           data-type="image" data-label="Log view — full day">
+          <img src="media/dol-verifier/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Log view</span>
+        </a>
+        <a class="thumb" href="media/dol-verifier/shot-02.png"
+           data-type="image" data-label="Discrepancy flagged">
+          <img src="media/dol-verifier/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Discrepancy flagged</span>
+        </a>
+        <a class="thumb" href="media/dol-verifier/shot-03.png"
+           data-type="image" data-label="Operator sign-off">
+          <img src="media/dol-verifier/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Sign-off</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BODY ===== -->
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Two systems hold a version of the same broadcast day. Traffic generates the commercial lineup; playout automation runs the log that actually reaches air. When the two drift apart &mdash; a spot dropped in the upload, a duration mismatch, a break that never made it across &mdash; nothing catches it. The discrepancy surfaces after the fact, once the spot has already missed its slot.</p>
+          <p>By then the cost is fixed: a make-good, an unhappy client, lost revenue on airtime that was already sold.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>The app puts both playlists in front of the operator in one pane and makes the comparison the whole job. It ingests the generated traffic log and the uploaded automation playlist, aligns them, and surfaces every point where they disagree.</p>
+          <ul>
+            <li>Single-pane view of the full broadcast day, no scrolling between two systems</li>
+            <li>Per-row verification against the automation log, with mismatches flagged</li>
+            <li>Operator sign-off recorded per slot, so accountability is explicit</li>
+            <li>Authentication against corporate directory, with a local fallback for outages</li>
+            <li>Regenerates the source document with verification state carried through</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Verification moved from a reactive post-mortem to a routine pre-air step. Discrepancies that previously reached air are now caught and corrected while there is still time to fix them, protecting both the client commitment and the revenue attached to it.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">Express</span>
+            <span class="chip">Vanilla JS</span>
+            <span class="chip">LDAP / AD</span>
+            <span class="chip">Claude AI</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Verification</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Auth</span><span class="v">LDAP + local</span></div>
+            <div><span class="k">Runs on</span><span class="v">On-premise</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Pre-air</div>
+            <div class="l">Discrepancies caught before transmission</div>
+          </div>
+          <div class="metric">
+            <div class="n">1 pane</div>
+            <div class="l">Replaces manual cross-checking of two systems</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="ip-multiviewer.html">&#9664; IP Multiviewer</a>
+      <a class="pg" href="cloud-multiviewer.html">Cloud Playout Multiviewer &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>
