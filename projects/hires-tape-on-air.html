@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HiRes Tape On Air Service &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="Compliance recordings turned into a working archive — preview, frame-accurate trim and merge, and archive mirroring, with a configurator that generates the recorder scripts." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="HiRes Tape On Air Service" />
+<meta property="og:description" content="Compliance recordings turned into a working archive — preview, frame-accurate trim and merge, and archive mirroring, with a configurator that generates the recorder scripts." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">HIRES TAPE ON AIR</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">TOC Tool and Web App</span>
+      <h1>HiRes Tape<br />On Air Service</h1>
+      <p class="lede">Compliance material exists to prove what aired. It is also the best source in the building for repurposing that material &mdash; if you can find a moment and cut it accurately. This turns the compliance archive into something you can actually work from.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2026</span>
+        <span><b>Sources</b>SDI, UDP, RTSP, SRT</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/hires-tape-on-air/demo-poster.jpg">
+          <source src="media/hires-tape-on-air/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/hires-tape-on-air/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; walkthrough</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/hires-tape-on-air/demo.mp4"
+           data-type="video" data-label="Demo — walkthrough" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/hires-tape-on-air/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo</span>
+        </a>
+        <a class="thumb" href="media/hires-tape-on-air/shot-01.png"
+           data-type="image" data-label="Recorder configurator">
+          <img src="media/hires-tape-on-air/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Configurator</span>
+        </a>
+        <a class="thumb" href="media/hires-tape-on-air/shot-02.png"
+           data-type="image" data-label="Preview and scrub">
+          <img src="media/hires-tape-on-air/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Preview</span>
+        </a>
+        <a class="thumb" href="media/hires-tape-on-air/shot-03.png"
+           data-type="image" data-label="Trim and merge export">
+          <img src="media/hires-tape-on-air/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Trim</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Getting a clip out of compliance material meant locating it on a share, opening it in something that could handle a long file, and cutting by hand. It worked, slowly, and it depended on the person doing it knowing where everything lived.</p>
+          <p>Setting up the recorders had the same shape: the capture commands were correct but hand-built, which made adding or changing a channel a careful manual exercise.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>Two pieces. A configurator that generates the recorder scripts, and a playback server that makes the resulting archive workable.</p>
+          <ul><li>Configurator generating capture scripts for SDI, UDP, RTSP and SRT channels, with user-defined presets replacing hand-editing</li><li>Playback server providing preview, trim, merge and archive mirroring over the browser</li><li>Separate paths for preview and for scrubbing, because the two have different demands</li><li>Low-resolution scrub proxies generated when material is mirrored, so scrubbing is responsive without touching the original</li><li>Exports delivered to a named server-side location, falling back to browser download</li></ul>
+        </section>
+
+        <section>
+          <h2>Getting frame accuracy right</h2>
+          <p>This was the part worth building twice. The first approach recorded a high-resolution file and a low-resolution proxy as two parallel captures, on the assumption they would stay aligned. They did not &mdash; two independently encoded live streams drift, and production logs confirmed segment boundaries separating by several seconds. That approach was retired rather than patched, because no amount of correction fixes an architecture that assumes something untrue.</p>
+          <p>Proxies are now generated server-side from the mirrored original, which makes alignment a property of the process instead of a hope. Even then a residual misalignment of one to two frames survived, traced to timestamps being rebased during proxy generation rather than carried through. Preserving the original timestamps closed it.</p>
+          <p>One or two frames sounds like nothing. On a trim point it is the difference between a clean cut and a visible one.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Aired material became reusable. A clip that needed a manual retrieval and a careful hand-cut is now found, scrubbed and exported in the browser, accurate to the frame.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">React + Vite</span>
+            <span class="chip">FFmpeg</span>
+            <span class="chip">Claude AI</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Archive</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Accuracy</span><span class="v">Frame accurate</span></div>
+            <div><span class="k">Runs on</span><span class="v">Windows</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Frame accurate</div>
+            <div class="l">Trim points match the source exactly</div>
+          </div>
+          <div class="metric">
+            <div class="n">Self-service</div>
+            <div class="l">Retrieval and export without a manual pull</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="ip-multiviewer.html">&#9664; IP Multiviewer</a>
+      <a class="pg" href="dol-verifier.html">DOL Verification App &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

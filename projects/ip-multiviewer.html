@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IP Multiviewer &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="A self-hosted browser multiviewer ingesting IP sources of any transport, transcoding in real time via FFmpeg, with per-tile audio metering and SCTE-35 ad-marker detection." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="IP Multiviewer" />
+<meta property="og:description" content="A self-hosted browser multiviewer ingesting IP sources of any transport, transcoding in real time via FFmpeg, with per-tile audio metering and SCTE-35 ad-marker detection." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">IP MULTIVIEWER</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">Monitoring</span>
+      <h1>IP<br />Multiviewer</h1>
+      <p class="lede">Sources moved to IP faster than monitoring hardware could follow, and a fixed-function multiviewer costs more than it adapts. This ingests whatever the source speaks, transcodes it live, and puts it on a wall any workstation on the network can open.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2025&ndash;2026</span>
+        <span><b>Grids</b>8, 12, 15 and 16 tiles</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/ip-multiviewer/demo-poster.jpg">
+          <source src="media/ip-multiviewer/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/ip-multiviewer/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; walkthrough</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/ip-multiviewer/demo.mp4"
+           data-type="video" data-label="Demo — walkthrough" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/ip-multiviewer/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo</span>
+        </a>
+        <a class="thumb" href="media/ip-multiviewer/shot-01.png"
+           data-type="image" data-label="16-tile monitoring wall">
+          <img src="media/ip-multiviewer/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Tile wall</span>
+        </a>
+        <a class="thumb" href="media/ip-multiviewer/shot-02.png"
+           data-type="image" data-label="Source configuration">
+          <img src="media/ip-multiviewer/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Source config</span>
+        </a>
+        <a class="thumb" href="media/ip-multiviewer/shot-03.png"
+           data-type="image" data-label="SCTE-35 marker on a tile">
+          <img src="media/ip-multiviewer/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">SCTE badge</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Monitoring needed to cover sources that arrive over completely different transports &mdash; multicast off the plant network, contribution feeds over SRT, streams pulled from public platforms &mdash; and a hardware multiviewer handles one of those well and the rest not at all. Buying capacity for a source type you might need next quarter is not a good trade.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>A Node backend spawns and supervises an FFmpeg process per tile, normalises the output, and serves a browser wall that plays it back. Player libraries are served locally rather than from a public CDN, so the wall keeps working on a network with no route out.</p>
+          <ul><li>Sources over UDP multicast and unicast, RTP, SRT, RTSP, RTMP and RTMPS, HLS and DASH, plus YouTube and Facebook live streams</li><li>Grid variants from 8 to 16 tiles for different monitoring positions</li><li>Per-tile audio metering through a single shared audio context pinned to one sample rate</li><li>Per-tile reinitialise for admins, persisted so it survives a restart</li><li>Directory authentication with a local fallback, role separation and audit logging</li></ul>
+        </section>
+
+        <section>
+          <h2>SCTE-35 visibility</h2>
+          <p>Ad markers are invisible on a normal monitoring wall, which is exactly when you want to see them. Detection runs in two forms because the sources differ: manifest-based streams are polled for cue tags, while transport-stream sources get a binary parser reading splice information directly off the stream.</p>
+          <p>Raw splice data is not readable at a glance, so commands, descriptors and segmentation types are mapped to human names, and a gate suppresses the routine ones so the badge on a tile means something when it appears. Attributing a marker to the correct stream required discovering which streams carry splice data first, then relaunching with a dedicated parser attached to each one.</p>
+        </section>
+
+        <section>
+          <h2>Set and forget</h2>
+          <p>The design goal was a wall that survives being ignored. Every tile has a server-side watchdog with a stale threshold and a startup grace period, and a bounded number of restart attempts before it backs off rather than thrashing.</p>
+          <p>The governing principle throughout: a source failure shows as signal loss on one tile. It never takes the server down.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Monitoring coverage extended to source types no fixed-function device in the building could take, at the cost of a workstation and the time to build it.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">FFmpeg</span>
+            <span class="chip">WebSocket</span>
+            <span class="chip">hls.js / dash.js</span>
+            <span class="chip">yt-dlp</span>
+            <span class="chip">LDAP / AD</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Monitoring</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Transports</span><span class="v">8+ source types</span></div>
+            <div><span class="k">Auth</span><span class="v">LDAP + local</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">16 tiles</div>
+            <div class="l">Grid variants from 8 to 16 live sources</div>
+          </div>
+          <div class="metric">
+            <div class="n">SCTE-35</div>
+            <div class="l">Ad markers surfaced per tile, in plain language</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="encoder-monitor.html">&#9664; Encoder Monitoring Panel</a>
+      <a class="pg" href="hires-tape-on-air.html">HiRes Tape On Air &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

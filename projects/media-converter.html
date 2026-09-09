@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TOC Media Converter &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="A browser-based media conversion service with encoder options gated to what the machine can actually do, EBU R128 loudness normalisation and correct field handling on every output." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="TOC Media Converter" />
+<meta property="og:description" content="A browser-based media conversion service with encoder options gated to what the machine can actually do, EBU R128 loudness normalisation and correct field handling on every output." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">TOC MEDIA CONVERTER</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">TOC Tool and Web App</span>
+      <h1>TOC Media<br />Converter</h1>
+      <p class="lede">Material arrives in whatever format the source hands over. Playout needs files that are broadcast-legal. This puts the conversion behind a browser page, with the encoder options gated to what the machine can actually do &mdash; so an operator gets a compliant file without touching a command line.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2025</span>
+        <span><b>Users</b>TOC operators</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/media-converter/demo-poster.jpg">
+          <source src="media/media-converter/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/media-converter/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; walkthrough</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/media-converter/demo.mp4"
+           data-type="video" data-label="Demo — walkthrough" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/media-converter/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo</span>
+        </a>
+        <a class="thumb" href="media/media-converter/shot-01.png"
+           data-type="image" data-label="Job queue and live progress">
+          <img src="media/media-converter/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Conversion queue</span>
+        </a>
+        <a class="thumb" href="media/media-converter/shot-02.png"
+           data-type="image" data-label="Capability-gated encoder options">
+          <img src="media/media-converter/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Encoder options</span>
+        </a>
+        <a class="thumb" href="media/media-converter/shot-03.png"
+           data-type="image" data-label="Admin panel and logs">
+          <img src="media/media-converter/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Admin panel</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Conversion was done by hand, one job at a time, by whoever knew the right incantation. The results varied: wrong field order on an interlaced deliverable, loudness that failed the spec, a frame rate that was nearly but not exactly right. There was no queue, so two people converting at once fought for the same machine, and no record of what had been produced.</p>
+          <p>The knowledge lived in a handful of heads, which made it a bottleneck and a risk at the same time.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>A local web service wraps FFmpeg in a form that encodes the house rules. The critical decision was to populate the encoder and container options from the FFmpeg build actually installed on the machine, at boot &mdash; so the interface can never offer a codec the machine will then fail on.</p>
+          <ul><li>Encoder and container options discovered from the installed FFmpeg at startup, not hardcoded</li><li>First-in-first-out job queue with live progress streamed to the browser</li><li>Field handling for interlaced and progressive deliverables, applied as an explicit choice</li><li>Rate control across constant-quality, variable and constant bitrate, with buffer constraints for compliant streams</li><li>Frame rate conversion using exact fractional rates rather than rounded approximations</li><li>Watch folder for automatic encoding, plus a directory browser and admin panel</li><li>Directory access confined to permitted paths, with every conversion logged</li></ul>
+        </section>
+
+        <section>
+          <h2>Getting the output broadcast-legal</h2>
+          <p>The parts that decide whether a file passes QC are the ones with no visible symptom until it fails. Loudness runs as a two-pass measurement to the EBU R128 standard rather than a single-pass estimate, because a one-pass guess is what produces deliverables that measure correctly in isolation and wrong in a programme.</p>
+          <p>Sample rate handling had to account for the 48 kHz constraint on certain broadcast containers, and stream mapping had to be made explicit so that video, audio and subtitle tracks survive the container change instead of being silently dropped.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Conversion stopped being a specialist task. An operator submits a job in a browser, the queue handles contention, and the output meets the delivery spec because the spec is built into the tool rather than remembered by the person running it.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">FFmpeg</span>
+            <span class="chip">LDAP / AD</span>
+            <span class="chip">Vanilla JS</span>
+            <span class="chip">Claude AI</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Conversion</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Auth</span><span class="v">LDAP + local</span></div>
+            <div><span class="k">Runs on</span><span class="v">Windows Server</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Broadcast-legal</div>
+            <div class="l">Loudness, field order and frame rate enforced on every output</div>
+          </div>
+          <div class="metric">
+            <div class="n">Queued</div>
+            <div class="l">Serial jobs with live progress, replacing ad-hoc command lines</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="../index.html#log">&#9664; All projects</a>
+      <a class="pg" href="compliance-recorder.html">Compliance Recorder &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

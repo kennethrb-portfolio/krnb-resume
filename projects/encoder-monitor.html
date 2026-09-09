@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Livestream Encoder Monitoring Panel &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="A web-callback receiver and monitoring wall for AWS Elemental Live encoder alerts, with severity mapping, event-name enrichment and SNMP node health." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="Livestream Encoder Monitoring Panel" />
+<meta property="og:description" content="A web-callback receiver and monitoring wall for AWS Elemental Live encoder alerts, with severity mapping, event-name enrichment and SNMP node health." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">ENCODER MONITORING PANEL</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">Dashboard</span>
+      <h1>Livestream Encoder<br />Monitoring Panel</h1>
+      <p class="lede">Encoder alerts were being generated correctly and going nowhere anyone would see them. This receives them as they fire, works out which node sent what, enriches them into something readable, and puts them on a wall.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2026</span>
+        <span><b>Platform</b>AWS Elemental Live</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/encoder-monitor/demo-poster.jpg">
+          <source src="media/encoder-monitor/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/encoder-monitor/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; walkthrough</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/encoder-monitor/demo.mp4"
+           data-type="video" data-label="Demo — walkthrough" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/encoder-monitor/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo</span>
+        </a>
+        <a class="thumb" href="media/encoder-monitor/shot-01.png"
+           data-type="image" data-label="Active alert wall">
+          <img src="media/encoder-monitor/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Alert wall</span>
+        </a>
+        <a class="thumb" href="media/encoder-monitor/shot-02.png"
+           data-type="image" data-label="Alert detail and severity">
+          <img src="media/encoder-monitor/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Alert detail</span>
+        </a>
+        <a class="thumb" href="media/encoder-monitor/shot-03.png"
+           data-type="image" data-label="Node health via SNMP">
+          <img src="media/encoder-monitor/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Node health</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Live encoding runs across a set of encoder nodes managed centrally. When something goes wrong the encoders say so &mdash; but the alerts scatter, and there was no single surface where an operator could see the state of the whole estate at a glance.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>A Node service exposes a callback endpoint that the encoders post their alerts to directly, and renders them on a live dashboard.</p>
+          <ul><li>Alert intake per node, with an allowlist controlling which sources are accepted</li><li>Severity resolved from the alert code, driving what the wall emphasises</li><li>Alerts that cannot be identified are dropped rather than displayed as noise</li><li>Event names enriched from the encoder management API so entries read as events, not identifiers</li><li>Node health polled over SNMP, since the management API does not expose the underlying statistics</li><li>Flat JSON persistence with atomic writes &mdash; active tiles clear on restart, history survives</li></ul>
+        </section>
+
+        <section>
+          <h2>What real hardware taught</h2>
+          <p>Every incorrect assumption in this build was corrected by testing against production encoders rather than a specification.</p>
+          <p>The foundational one: the central manager configures alert callbacks, but it does not relay the alerts. Each node posts its own. That single fact reshapes the design &mdash; the allowlist has to name every node, and the payload carries no node field, so the sender itself is what identifies the source.</p>
+          <p>The one that cost the most time was a clock offset of roughly a minute and a half between the monitoring machine and the encoders, which quietly invalidated request authentication until it was detected and corrected for.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Encoder health became something an operator can see rather than something they discover. Alerts arrive in seconds, on a wall, with enough context to act on.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">Express</span>
+            <span class="chip">SNMP</span>
+            <span class="chip">AWS Elemental</span>
+            <span class="chip">Vanilla JS</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Alerting</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Ingest</span><span class="v">Web callback</span></div>
+            <div><span class="k">Enrichment</span><span class="v">REST + SNMP</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Real time</div>
+            <div class="l">Alerts reach a wall instead of a log nobody reads</div>
+          </div>
+          <div class="metric">
+            <div class="n">Per node</div>
+            <div class="l">Every encoder reports directly; nothing depends on a relay</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="teams-chatbot.html">&#9664; Playlist Live Service</a>
+      <a class="pg" href="ip-multiviewer.html">IP Multiviewer &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Playout Playlist and Report Live Service &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="Publishes live playout playlists and scheduled reports out of the broadcast automation system as self-refreshing pages, with two-server high availability." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="Playout Playlist and Report Live Service" />
+<meta property="og:description" content="Publishes live playout playlists and scheduled reports out of the broadcast automation system as self-refreshing pages, with two-server high availability." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">PLAYLIST LIVE SERVICE</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">Automation</span>
+      <h1>Playout Playlist and<br />Report Live Service</h1>
+      <p class="lede">The playlist lived inside the automation system, which meant everyone outside the control room had to ask someone inside it. This service takes the live schedule out of Etere and publishes it as a self-refreshing page anyone with access can open &mdash; plus the scheduled reports the operation runs on.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2025&ndash;2026</span>
+        <span><b>Version</b>v6.0</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/teams-chatbot/demo-poster.jpg">
+          <source src="media/teams-chatbot/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/teams-chatbot/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; walkthrough</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/teams-chatbot/demo.mp4"
+           data-type="video" data-label="Demo — walkthrough" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/teams-chatbot/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo</span>
+        </a>
+        <a class="thumb" href="media/teams-chatbot/shot-01.png"
+           data-type="image" data-label="Three-day live playlist page">
+          <img src="media/teams-chatbot/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Live playlist</span>
+        </a>
+        <a class="thumb" href="media/teams-chatbot/shot-02.png"
+           data-type="image" data-label="On air status and overrun counter">
+          <img src="media/teams-chatbot/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">On air card</span>
+        </a>
+        <a class="thumb" href="media/teams-chatbot/shot-03.png"
+           data-type="image" data-label="Admin dashboard">
+          <img src="media/teams-chatbot/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Dashboard</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Schedule information was locked behind an automation client. Anyone who needed to know what was on, what was next, or what ran yesterday had to ask an operator, which interrupted the operator and delayed the person asking. Reports were generated manually on a rhythm somebody had to remember.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>A Node service pulls each channel's playlist from Etere and renders it as an ordinary web page, published where the rest of the organisation already works.</p>
+          <ul><li>Three days on one page &mdash; yesterday, today and tomorrow &mdash; refreshing in place rather than reloading and losing the reader's position</li><li>An on-air card driven by live playout status, with a running overrun counter</li><li>Polling that accelerates during an overrun, when the schedule is moving fastest and accuracy matters most</li><li>Hourly PDFs with per-output retention, plus segmented production guides and daily runs generated on schedule</li><li>Per-channel configuration, so each channel independently controls which outputs it produces</li><li>Admin dashboard behind directory authentication, with manual generation for operators</li></ul>
+        </section>
+
+        <section>
+          <h2>Staying up when a server doesn't</h2>
+          <p>A schedule page nobody trusts is a page nobody uses, so availability was treated as a feature rather than an afterthought. Two servers coordinate through a shared lease file with a fixed-primary policy: the standby takes over when the primary stops renewing, and hands back deliberately rather than fighting over ownership.</p>
+          <p>The failure modes that actually bit were subtler than a server going down &mdash; a fetch that hung forever instead of failing, and an authentication renewal that stopped pushes permanently once it lapsed. Both are now bounded by timeouts and watched by a supervisor that can restart the service on its own.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Schedule information became self-service. The control room stopped fielding questions it had to stop work to answer, and the reports that used to depend on someone remembering now arrive on their own.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">Express</span>
+            <span class="chip">Playwright</span>
+            <span class="chip">cheerio</span>
+            <span class="chip">SharePoint</span>
+            <span class="chip">Caddy</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Distribution</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Scope</span><span class="v">Multi-channel</span></div>
+            <div><span class="k">Availability</span><span class="v">Two-server HA</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">3 days</div>
+            <div class="l">Yesterday, today and tomorrow on one self-refreshing page</div>
+          </div>
+          <div class="metric">
+            <div class="n">Two-server</div>
+            <div class="l">Automatic failover with deliberate failback</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="compliance-recorder.html">&#9664; Compliance Recorder</a>
+      <a class="pg" href="encoder-monitor.html">Encoder Monitoring Panel &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>
