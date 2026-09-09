@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cloud Playout Multiviewer with Recorder — Kenneth Robert Basilio</title>
+<meta name="description" content="A browser-based tile wall for cloud playout channels with one-click recording, cutting proof-of-airing report turnaround from hours to minutes." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="Cloud Playout Multiviewer with Recorder" />
+<meta property="og:description" content="Browser-based monitoring wall for cloud playout channels, with one-click recording for proof-of-airing requests." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">CLOUD PLAYOUT MULTIVIEWER</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <!-- ===== PAGE HEAD ===== -->
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">Monitoring</span>
+      <h1>Cloud Playout Multiviewer<br />with Recorder</h1>
+      <p class="lede">Cloud playout channels had no single place to watch them and no fast way to prove what went to air. This puts every channel on one browser tile wall and gives the operator a record button on each tile &mdash; turning a proof-of-airing request from an afternoon of retrieval into a few minutes of work.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2025&ndash;2026</span>
+        <span><b>Channels</b>24 across 3 groups</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW MONITOR ===== -->
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video
+          controls
+          playsinline
+          preload="none"
+          poster="media/cloud-multiviewer/demo-poster.jpg">
+          <source src="media/cloud-multiviewer/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/cloud-multiviewer/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; tile wall and recording</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/cloud-multiviewer/demo.mp4"
+           data-type="video" data-label="Demo — tile wall and recording" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/cloud-multiviewer/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo &mdash; tile wall</span>
+        </a>
+        <a class="thumb" href="media/cloud-multiviewer/shot-01.png"
+           data-type="image" data-label="Full tile wall — one channel group">
+          <img src="media/cloud-multiviewer/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Tile wall</span>
+        </a>
+        <a class="thumb" href="media/cloud-multiviewer/shot-02.png"
+           data-type="image" data-label="Multi-group view">
+          <img src="media/cloud-multiviewer/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Multi-group view</span>
+        </a>
+        <a class="thumb" href="media/cloud-multiviewer/shot-03.png"
+           data-type="image" data-label="Per-tile recording control">
+          <img src="media/cloud-multiviewer/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Recording control</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BODY ===== -->
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Playout moved to the cloud, but monitoring did not follow. Channels could only be watched one browser tab at a time, which is no way to keep eyes on two dozen of them. There was no wall, no shared view, and nothing that behaved like the monitoring stack an operator already knows.</p>
+          <p>Proof of airing was the sharper problem. When a client or a regulator asked what actually went out, answering meant locating the material and pulling it together by hand &mdash; hours of work for a question that is usually about ninety seconds of airtime.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>A Node.js service ingests every channel over WebRTC and republishes it locally, so the browser wall and the recorder both read from one internal pipeline rather than each holding its own upstream connection. The wall itself is a plain browser page, reachable from any workstation on the network.</p>
+          <ul>
+            <li>Tile wall with tabbed channel groups, plus a multi-select view for watching several groups stacked together</li>
+            <li>Click-to-solo audio in the MCR convention &mdash; all tiles muted, click one to listen, click again to drop it</li>
+            <li>Double-click any tile for fullscreen; right-click to force an immediate reconnect</li>
+            <li>One-click record per tile, written as fragmented MP4 so a crash mid-capture still leaves a playable file</li>
+            <li>Automatic retry when a feed drops mid-recording, and no automatic deletion of captures</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Keeping the wall honest</h2>
+          <p>A monitoring wall that shows a frozen picture is worse than one that shows nothing, because it reports good news that isn't true. Two independent watchdogs run against every tile.</p>
+          <ul>
+            <li>A decoder check reads playback statistics per tile and reconnects when frames stop advancing</li>
+            <li>A content check samples each tile's brightness on a downscaled canvas, catching a picture stuck black while the decoder happily continues &mdash; a state no playback statistic can see</li>
+            <li>The black-frame timeout is set longer than the decoder timeout on purpose, so legitimate slates and bumpers don't trigger a reconnect</li>
+            <li>Recovery is silent and per-tile: one tile reconnects on its own without disturbing the other twenty-three</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Proof-of-airing turnaround dropped from hours to minutes. Monitoring that previously wasn't practical at all now runs on an unattended wall, and the operator who needs a capture takes it themselves in one click instead of raising a request and waiting.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">WebRTC</span>
+            <span class="chip">MediaMTX</span>
+            <span class="chip">FFmpeg</span>
+            <span class="chip">Claude AI</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Monitoring</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Transport</span><span class="v">WebRTC</span></div>
+            <div><span class="k">Capture</span><span class="v">On demand</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Hours &rarr; minutes</div>
+            <div class="l">Proof-of-airing report turnaround</div>
+          </div>
+          <div class="metric">
+            <div class="n">24</div>
+            <div class="l">Channels on one wall, previously one tab at a time</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="dol-verifier.html">&#9664; DOL Verification App</a>
+      <a class="pg" href="hires-tape-on-air.html">HiRes Tape On Air &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>
