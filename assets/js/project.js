@@ -63,6 +63,7 @@
 
   if (screenEl && stripEl) {
     var videoEl = screenEl.querySelector("video");
+    var srcTag  = videoEl && videoEl.querySelector("source");
     var imgEl   = screenEl.querySelector("img");
     var srcName = document.querySelector(".bar .src");
     var thumbs  = Array.prototype.slice.call(stripEl.querySelectorAll(".thumb"));
@@ -79,9 +80,22 @@
 
       if (isVideo) {
         if (imgEl) imgEl.hidden = true;
-        if (videoEl) {
+        if (videoEl && srcTag) {
+          /* Swap the source only when it actually changes, so
+             re-selecting the current clip doesn't restart it. */
+          if (srcTag.getAttribute("src") !== full) {
+            videoEl.pause();
+            screenEl.classList.remove("live");
+            srcTag.setAttribute("src", full);
+            var poster = thumb.getAttribute("data-poster");
+            if (poster) videoEl.setAttribute("poster", poster);
+            videoEl.load();
+          }
           videoEl.hidden = false;
-          try { videoEl.play(); } catch (e) { /* autoplay may be blocked; controls remain */ }
+          var playing = videoEl.play();
+          if (playing && playing.catch) {
+            playing.catch(function () { /* autoplay may be blocked; controls remain */ });
+          }
         }
       } else {
         if (videoEl) {
