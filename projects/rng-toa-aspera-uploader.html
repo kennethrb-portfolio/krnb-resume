@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Regional Tape On Air with Aspera Uploader &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="Tape On Air deployed across regional stations, with an Aspera-based uploader that consolidates every regional recording into one searchable archive at headquarters." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="Regional Tape On Air with Aspera Uploader" />
+<meta property="og:description" content="Proof of airing for regional stations, consolidated into a single archive through a self-healing Aspera uploader." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">REGIONAL TOA + ASPERA UPLOADER</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">TOC Tool and Web App</span>
+      <h1>Regional Tape On Air<br />with Aspera Uploader</h1>
+      <p class="lede">Proof of airing existed for material originating from one point. Regional stations had none &mdash; and covering each of them with a commercial system meant paying for the same capability many times over. This deploys the in-house Tape On Air solution to every regional site and moves what it records back to headquarters, so all of it is searchable from one place.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2026</span>
+        <span><b>Scope</b>Multi-site</span>
+        <span><b>Deployment</b>Regional sites &rarr; HQ</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/rng-toa-aspera-uploader/demo-poster.jpg">
+          <source src="media/rng-toa-aspera-uploader/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/rng-toa-aspera-uploader/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; uploader in operation</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/rng-toa-aspera-uploader/demo.mp4"
+           data-type="video" data-poster="media/rng-toa-aspera-uploader/demo-poster.jpg"
+           data-label="Demo — uploader in operation" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/rng-toa-aspera-uploader/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo &mdash; uploader</span>
+        </a>
+        <a class="thumb" href="media/rng-toa-aspera-uploader/shot-01.png"
+           data-type="image" data-label="Uploader status and activity">
+          <img src="media/rng-toa-aspera-uploader/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Uploader status</span>
+        </a>
+        <a class="thumb" href="media/rng-toa-aspera-uploader/shot-02.png"
+           data-type="image" data-label="Regional recordings at headquarters">
+          <img src="media/rng-toa-aspera-uploader/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Consolidated archive</span>
+        </a>
+        <a class="thumb" href="media/rng-toa-aspera-uploader/shot-03.png"
+           data-type="image" data-label="Retry queue after a link outage">
+          <img src="media/rng-toa-aspera-uploader/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Retry queue</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Regional stations had no recording of what they actually aired. When a discrepancy was raised &mdash; a spot queried, an outage disputed, a client asking what went out &mdash; there was nothing to check it against. The answer depended on whoever was on shift and what they remembered.</p>
+          <p>The obvious fix was the expensive one. Compliance recording is priced per site, and a network of regional stations multiplies that cost in a way a single origination point never does. Buying the same capability many times over, for sites that each need one channel of it, is a poor trade &mdash; which is how the gap stayed open.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>The in-house Tape On Air solution was already proven at headquarters, so the work was not building a recorder &mdash; it was getting that recorder to every regional site and getting the material back. Each station runs its own capture; an uploader built against the Aspera SDK moves the finished segments to headquarters, where they join the same archive and the same web front end everything else is previewed through.</p>
+          <ul>
+            <li>Tape On Air deployed per regional site, recording from bootup with no operator action required</li>
+            <li>A watch-folder uploader picks up each completed recording segment and transfers it to headquarters over Aspera</li>
+            <li>Transfers run through the Aspera SDK rather than shelling out to a command-line client, so transfer state is observable rather than inferred</li>
+            <li>Every regional recording lands in the same archive as headquarters material and is previewed from one website</li>
+            <li>Monitoring-only interface showing connectivity, transfer activity and errors &mdash; paths and destinations stay in server-side configuration, not in the UI</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Surviving an unattended site</h2>
+          <p>A regional site has no one to restart anything. Whatever is deployed there has to assume it will be rebooted without warning, lose its link at the worst moment, and run for months with nobody looking at it. Every design decision followed from that.</p>
+          <ul>
+            <li>Recording starts automatically at bootup, so a power event costs minutes rather than days</li>
+            <li>The uploader installs as a Windows service, so it survives crashes, reboots and logouts instead of depending on a signed-in session</li>
+            <li>Failed transfers are not discarded &mdash; they are tracked and re-queued, and drain automatically once connectivity returns</li>
+            <li>A file is only considered for transfer once it has stopped being written to, so the uploader never grabs a segment mid-write</li>
+          </ul>
+          <p>The re-queue behaviour is the part that matters most in practice. Regional connectivity is not headquarters connectivity, and an uploader that simply fails during an outage produces exactly the gap the whole system exists to prevent.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Every regional station now has proof of airing, at a fraction of what per-site commercial coverage would have cost. Disputes and recording enquiries that previously had to be chased through individual stations are answered from one place, by whoever picks up the request &mdash; without a call to the region and without waiting for someone there to go looking.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">Aspera SDK</span>
+            <span class="chip">FFmpeg</span>
+            <span class="chip">Windows Service</span>
+            <span class="chip">Claude AI</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Compliance</span></div>
+            <div><span class="k">Scope</span><span class="v">Multi-site</span></div>
+            <div><span class="k">Transfer</span><span class="v">Aspera</span></div>
+            <div><span class="k">Recovery</span><span class="v">Auto-resume</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Single point</div>
+            <div class="l">Every regional recording previewed from one site</div>
+          </div>
+          <div class="metric">
+            <div class="n">Self-healing</div>
+            <div class="l">Failed uploads re-queue and drain when the link returns</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="cloud-multiviewer.html">&#9664; Cloud Playout Multiviewer</a>
+      <a class="pg" href="../index.html#log">All projects &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>
