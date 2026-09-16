@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Closed Caption Viewer &mdash; Kenneth Robert Basilio</title>
+<meta name="description" content="A caption QC gate — previews embedded EIA-608/708 captions in the browser, then passes or fails the file with a stamped record of who signed it off." />
+<meta name="referrer" content="no-referrer" />
+
+<meta property="og:title" content="Closed Caption Viewer" />
+<meta property="og:description" content="Verifying embedded closed captions before material reaches processing, with an auditable pass or fail decision." />
+<meta property="og:type" content="article" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/project.css" />
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail-in">
+    <a class="back" href="../index.html#log">&#9664; Engineering Log</a>
+    <span class="rail-id">
+      <span class="k">Project</span>
+      <span class="v">CLOSED CAPTION VIEWER</span>
+    </span>
+    <!-- PARAM: PROJECT_STATUS — see PARAMETERS.md -->
+    <span class="rail-stat">Status <b>In production</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="phead">
+      <span class="kind">TOC Tool and Web App</span>
+      <h1>Closed Caption<br />Viewer</h1>
+      <p class="lede">Captions are a compliance requirement, but whether a file actually carries them is invisible until something plays it. This puts the check in a browser: the reviewer watches the material with its captions rendered, then passes or fails it &mdash; and the decision is recorded against the file rather than remembered.</p>
+      <!-- PARAM: PROJECT_SPEC — see PARAMETERS.md — EDIT: confirm figures -->
+      <div class="spec">
+        <span><b>Role</b>Sole developer</span>
+        <span><b>Built</b>2026</span>
+        <span><b>Users</b>TOC reviewers</span>
+        <span><b>Deployment</b>On-premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="monitor">
+      <div class="screen">
+        <!-- PARAM: PROJECT_MEDIA — see PARAMETERS.md -->
+        <video controls playsinline preload="none" poster="media/caption-viewer/demo-poster.jpg">
+          <source src="media/caption-viewer/demo.mp4" type="video/mp4" />
+          Your browser cannot play this video. <a href="media/caption-viewer/demo.mp4">Download the demo</a> instead.
+        </video>
+        <img hidden alt="" />
+      </div>
+      <div class="bar">
+        <span class="src">Demo &mdash; caption review and sign-off</span>
+        <span class="tally"><i></i>On air</span>
+      </div>
+
+      <div class="strip">
+        <a class="thumb" href="media/caption-viewer/demo.mp4"
+           data-type="video" data-poster="media/caption-viewer/demo-poster.jpg"
+           data-label="Demo — caption review and sign-off" aria-current="true">
+          <span class="play">&#9658; VIDEO</span>
+          <img src="media/caption-viewer/demo-poster.jpg" alt="" loading="lazy" />
+          <span class="cap">Demo &mdash; review</span>
+        </a>
+        <a class="thumb" href="media/caption-viewer/shot-01.png"
+           data-type="image" data-label="Caption preview over video">
+          <img src="media/caption-viewer/shot-01.png" alt="" loading="lazy" />
+          <span class="cap">Caption preview</span>
+        </a>
+        <a class="thumb" href="media/caption-viewer/shot-02.png"
+           data-type="image" data-label="Pass or fail decision">
+          <img src="media/caption-viewer/shot-02.png" alt="" loading="lazy" />
+          <span class="cap">Pass / fail</span>
+        </a>
+        <a class="thumb" href="media/caption-viewer/shot-03.png"
+           data-type="image" data-label="Queue awaiting review">
+          <img src="media/caption-viewer/shot-03.png" alt="" loading="lazy" />
+          <span class="cap">Review queue</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="body-grid">
+      <div class="prose">
+
+        <section>
+          <h2>The problem</h2>
+          <p>Captions have to be present and correct before material moves downstream, but a caption track gives no outward sign of itself. A file either carries one or it does not, and the only way to know is to play it with something that renders captions &mdash; which is not what a file listing, a checksum or a transfer report tells you.</p>
+          <p>So the check was happening late, informally, or not at all. When a caption problem was found after the fact, there was no record of who had looked at the file or what they saw.</p>
+        </section>
+
+        <section>
+          <h2>The build</h2>
+          <p>Material lands in a watch folder and appears in a review queue. The reviewer opens it, watches with captions rendered over the picture, and makes one decision. The file moves accordingly and the decision is written down.</p>
+          <ul>
+            <li>Watch-folder ingest from existing storage paths, rather than asking anyone to upload material by hand</li>
+            <li>In-browser playback with captions rendered natively over the video</li>
+            <li>Pass or fail in one action, with reject reasons drawn from a fixed list so the outcome is consistent between reviewers</li>
+            <li>Approved files move to the delivery destination; rejected files go to a separate failed-file path, so the two never mix</li>
+            <li>Sign-off stamped into the accompanying metadata &mdash; who approved it, and when &mdash; and written to a separate reports path split by pass and fail</li>
+            <li>Read-only by design: the tool inspects and routes, and never edits or re-encodes the original</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Captions hide in more places than you would expect</h2>
+          <p>There is no single way a caption reaches a file, and a checker that only understands one of them will confidently report a file as uncaptioned when it is not. The awkward part of this build was coverage.</p>
+          <ul>
+            <li>EIA-608 and 708 carried inside the video elementary stream</li>
+            <li>Muxed text tracks in their own stream</li>
+            <li>DVB and teletext subtitles arriving in transport streams</li>
+            <li>Sidecar subtitle files delivered alongside the media rather than inside it</li>
+            <li>Ancillary caption tracks in broadcast MXF, where the captions sit in a separate data track rather than in the video</li>
+          </ul>
+          <p>The tool reports whether captions were found and whether they could be rendered, which matters as much as the pass or fail itself &mdash; "no captions present" and "captions present but unreadable" are different problems with different owners.</p>
+        </section>
+
+        <section>
+          <h2>Decisions that shaped it</h2>
+          <p>Caption rendering uses the browser's own subtitle support rather than a custom overlay renderer. A bespoke renderer would have allowed exact styling control, but it also means writing a caption renderer &mdash; and the thing being verified is whether captions exist and read correctly, not whether they are pixel-identical to a broadcast decoder.</p>
+          <p>Material arriving without its accompanying metadata is held rather than processed, because a file that passes review with nothing to stamp the approval into produces an unauditable result. An administrator can relax this when the workflow calls for it.</p>
+        </section>
+
+        <section>
+          <h2>The outcome</h2>
+          <!-- EDIT: replace with your real figures before publishing. -->
+          <p>Caption verification became an explicit gate with an owner and a record, instead of an assumption made somewhere upstream. Files that fail are separated at the point of review rather than discovered downstream, and every pass carries the name of the person who made the call.</p>
+        </section>
+
+      </div>
+
+      <aside class="side">
+        <div class="panel">
+          <h3>Stack</h3>
+          <div class="chips">
+            <span class="chip">Node.js</span>
+            <span class="chip">Express</span>
+            <span class="chip">FFmpeg</span>
+            <span class="chip">EIA-608 / 708</span>
+            <span class="chip">Claude AI</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>At a glance</h3>
+          <div class="kv">
+            <div><span class="k">Category</span><span class="v">Quality control</span></div>
+            <div><span class="k">Interface</span><span class="v">Browser</span></div>
+            <div><span class="k">Ingest</span><span class="v">Watch folder</span></div>
+            <div><span class="k">Originals</span><span class="v">Never modified</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Impact</h3>
+          <!-- EDIT: replace both metrics with your real numbers. -->
+          <div class="metric">
+            <div class="n">Auditable</div>
+            <div class="l">Every pass carries who signed it off, and when</div>
+          </div>
+          <div class="metric">
+            <div class="n">5 sources</div>
+            <div class="l">Caption formats detected across embedded, muxed and sidecar delivery</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PARAM: PROJECT_PAGER — see PARAMETERS.md -->
+    <nav class="pager" aria-label="Project navigation">
+      <a class="pg" href="rng-toa-aspera-uploader.html">&#9664; Regional TOA + Aspera</a>
+      <a class="pg" href="../index.html#log">All projects &#9654;</a>
+    </nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>&copy; <span id="yr"></span> KENNETH ROBERT BASILIO &middot; ALL SIGNALS NOMINAL</span>
+    <span class="rt">BUILT WITH VANILLA HTML / CSS / JS &middot; NO TRACKERS</span>
+  </div>
+</footer>
+
+<div class="lb" hidden>
+  <button class="lb-close" type="button">CLOSE &times;</button>
+  <img alt="" />
+</div>
+
+<script src="../assets/js/project.js"></script>
+</body>
+</html>
