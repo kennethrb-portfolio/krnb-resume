@@ -18,7 +18,7 @@
   --cyan:#38BDF8;
   --r:6px;
   --maxw:1160px;
-  --disp:'Chakra Petch',system-ui,sans-serif;
+  --disp:'Bahnschrift','DIN Alternate','Barlow Semi Condensed',system-ui,sans-serif;
   --body:'IBM Plex Sans',system-ui,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
